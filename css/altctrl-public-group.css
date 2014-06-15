@@ -1,0 +1,7 @@
+#buddypress .group-custom-front {
+	margin:1em 0;
+}
+
+body.group-admin.control #buddypress .standard-form div.wp-editor textarea {
+	width:100%;
+}

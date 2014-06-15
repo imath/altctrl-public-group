@@ -1,0 +1,106 @@
+# Copyright (C) 2014 Alternative Public Group Control
+# This file is distributed under the same license as the Alternative Public Group Control package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Alternative Public Group Control 1.0.0-beta\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/altctrl-public-group\n"
+"POT-Creation-Date: 2014-06-15 10:43:09+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: includes/alt-public-group-ctrl.php:23
+msgid "Control"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:75
+msgctxt "post type general name"
+msgid "Groups front"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:76
+msgctxt "post type singular name"
+msgid "Group front"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:136
+msgid "This area is restricted to group members"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:145
+#: includes/alt-public-group-ctrl.php:305
+#: includes/alt-public-group-ctrl.php:306
+msgid "Request Membership"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:177
+msgid "Requests"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:191
+msgid "Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request."
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:279
+#: includes/alt-public-group-ctrl.php:280
+msgid "Accept Invitation"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:292
+#: includes/alt-public-group-ctrl.php:293
+msgid "Request Sent"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:453
+msgid "Joining group"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:456
+msgid "Users need to submit a request to join group"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:463
+msgid "Group members only tabs"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:479
+msgid "Use the checkboxes to choose the tabs to hide to non members"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:485
+msgid "Group&#39;s home page"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:488
+msgid "Use a custom front page for non group members"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:512
+msgid "Save"
+msgstr ""
+
+#: includes/alt-public-group-ctrl.php:573
+msgid "Settings saved successfully"
+msgstr ""
+#. Plugin Name of the plugin/theme
+msgid "Alternative Public Group Control"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://imathi.eu/2014/06/15/altctrl-public-group/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Experimental BuddyPress plugin to provide an alternative control to group admins on their public groups."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "imath"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://imathi.eu"
+msgstr ""

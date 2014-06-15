@@ -1,0 +1,121 @@
+# Copyright (C) 2014 Alternative Public Group Control
+# This file is distributed under the same license as the Alternative Public Group Control package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Alternative Public Group Control 1.0.0-beta\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/altctrl-public-group\n"
+"POT-Creation-Date: 2014-06-15 10:43:09+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-06-15 12:52+0100\n"
+"Last-Translator: imath <mathchristo@yahoo.fr>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: Poedit 1.6.4\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr_FR\n"
+
+#: includes/alt-public-group-ctrl.php:23
+msgid "Control"
+msgstr "Contrôle"
+
+#: includes/alt-public-group-ctrl.php:75
+msgctxt "post type general name"
+msgid "Groups front"
+msgstr "Page de groupes"
+
+#: includes/alt-public-group-ctrl.php:76
+msgctxt "post type singular name"
+msgid "Group front"
+msgstr "Page de groupe"
+
+#: includes/alt-public-group-ctrl.php:136
+msgid "This area is restricted to group members"
+msgstr "Cette zone est réservée aux membres du groupe."
+
+#: includes/alt-public-group-ctrl.php:145
+#: includes/alt-public-group-ctrl.php:305
+#: includes/alt-public-group-ctrl.php:306
+msgid "Request Membership"
+msgstr "Adhérer"
+
+#: includes/alt-public-group-ctrl.php:177
+msgid "Requests"
+msgstr "Demande d&#39;adhésion"
+
+#: includes/alt-public-group-ctrl.php:191
+msgid ""
+"Your membership request was sent to the group administrator successfully. "
+"You will be notified when the group administrator responds to your request."
+msgstr ""
+"Votre demande d&#39;adhésion a été transmise à l&#39;administrateur du "
+"groupe. Vous serez notifié lorsque il y aura répondu."
+
+#: includes/alt-public-group-ctrl.php:279
+#: includes/alt-public-group-ctrl.php:280
+msgid "Accept Invitation"
+msgstr "Accepter l&#39;invitation"
+
+#: includes/alt-public-group-ctrl.php:292
+#: includes/alt-public-group-ctrl.php:293
+msgid "Request Sent"
+msgstr "Demande transmise"
+
+#: includes/alt-public-group-ctrl.php:453
+msgid "Joining group"
+msgstr "Devenir membre du groupe"
+
+#: includes/alt-public-group-ctrl.php:456
+msgid "Users need to submit a request to join group"
+msgstr ""
+"Les utilisateurs doivent faire une demande d&#39;adhésion pour rejoindre ce "
+"groupe"
+
+#: includes/alt-public-group-ctrl.php:463
+msgid "Group members only tabs"
+msgstr "Onglets réservés aux membres du groupe"
+
+#: includes/alt-public-group-ctrl.php:479
+msgid "Use the checkboxes to choose the tabs to hide to non members"
+msgstr "Utilisez les case à cocher pour cacher les onglets aux non membres."
+
+#: includes/alt-public-group-ctrl.php:485
+msgid "Group&#39;s home page"
+msgstr "Page d&#39;accueil du groupe"
+
+#: includes/alt-public-group-ctrl.php:488
+msgid "Use a custom front page for non group members"
+msgstr ""
+"Utiliser une page d&#39;accueil spécifique pour les non membres du groupe"
+
+#: includes/alt-public-group-ctrl.php:512
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: includes/alt-public-group-ctrl.php:573
+msgid "Settings saved successfully"
+msgstr "Réglages sauvegardés."
+
+#. Plugin Name of the plugin/theme
+msgid "Alternative Public Group Control"
+msgstr "Contrôle alternatif pour les groupes publics"
+
+#. Plugin URI of the plugin/theme
+msgid "http://imathi.eu/2014/06/15/altctrl-public-group/"
+msgstr "http://imathi.eu/2014/06/15/altctrl-public-group/"
+
+#. Description of the plugin/theme
+msgid ""
+"Experimental BuddyPress plugin to provide an alternative control to group "
+"admins on their public groups."
+msgstr ""
+"Plugin BuddyPress expérimental visant à ajouter un contrôle plus fin des "
+"groupes publics."
+
+#. Author of the plugin/theme
+msgid "imath"
+msgstr "imath"
+
+#. Author URI of the plugin/theme
+msgid "http://imathi.eu"
+msgstr "http://imathi.eu"
