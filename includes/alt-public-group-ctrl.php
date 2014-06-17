@@ -498,7 +498,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 
 			wp_editor( $content, 'altctrl-public-group', array(
 				'textarea_name'     => '_altctrl[page_content]',
-				'media_buttons'     => false,
+				'media_buttons'     => bp_current_user_can( 'upload_files' ),
 				'textarea_rows'     => 12,
 				'tinymce'           => apply_filters( 'altctrl_public_group_edit_front_page', false ),
 				'teeny'             => true,
