@@ -494,11 +494,14 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 			if ( ! empty( $page_id ) ) {
 				$page = get_post( $page_id, OBJECT, 'edit' );
 				$content = $page->post_content;
+				?>
+				<p><a class="button" href="<?php echo get_edit_post_link( $page_id );?>"><?php _e( 'Edit in WP Administration', 'altctrl-public-group' );?></a></p>
+				<?php
 			}
 
 			wp_editor( $content, 'altctrl-public-group', array(
 				'textarea_name'     => '_altctrl[page_content]',
-				'media_buttons'     => bp_current_user_can( 'upload_files' ),
+				'media_buttons'     => false,
 				'textarea_rows'     => 12,
 				'tinymce'           => apply_filters( 'altctrl_public_group_edit_front_page', false ),
 				'teeny'             => true,
@@ -510,7 +513,6 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 
 		<div class="submit">
 			<input type="submit" name="_altctrl[save]" value="<?php _e( 'Save', 'altctrl-public-group' );?>" />
-			<a class="button" href="<?php echo get_edit_post_link( $page_id );?>"><?php _e( 'Edit in WP Administration', 'altctrl-public-group' );?></a>
 			<input type="hidden" name="_altctrl[page_id]" value="<?php echo $page_id; ?>" />
 
 			<?php wp_nonce_field( 'groups_edit_save_' . $this->slug, 'altctrl' ); ?>
