@@ -510,6 +510,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 
 		<div class="submit">
 			<input type="submit" name="_altctrl[save]" value="<?php _e( 'Save', 'altctrl-public-group' );?>" />
+			<a class="button" href="<?php echo get_edit_post_link( $page_id );?>"><?php _e( 'Edit in WP Administration', 'altctrl-public-group' );?></a>
 			<input type="hidden" name="_altctrl[page_id]" value="<?php echo $page_id; ?>" />
 
 			<?php wp_nonce_field( 'groups_edit_save_' . $this->slug, 'altctrl' ); ?>
