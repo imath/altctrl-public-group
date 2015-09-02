@@ -318,6 +318,10 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	public function maybe_disable_can_do( $can_do = true ) {
 		global $activities_template;
 
+		if ( is_null( $activities_template ) ) {
+			return $can_do;
+		}
+
 		if ( 'groups' !=  $activities_template->activity->component ) {
 			return $can_do;
 		}
@@ -442,7 +446,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		$bp = buddypress();
 		$group_id = empty( $group_id ) ? bp_get_current_group_id() : $group_id;
 
-		$request  = groups_get_groupmeta( $group_id, '_altctrl_request', true );
+		$request  = apply_filters( 'alt_public_group_ctrl_users_request', groups_get_groupmeta( $group_id, '_altctrl_request', true ) );
 		$page_id  = absint( $this->has_front_page( $group_id ) );
 
 		$tabs = groups_get_groupmeta( $group_id, '_altctrl_tabs', true );
