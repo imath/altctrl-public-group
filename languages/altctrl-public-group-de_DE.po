@@ -1,0 +1,97 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Alternative Public Group Control\n"
+"POT-Creation-Date: 2015-01-31 13:02+0100\n"
+"PO-Revision-Date: 2015-01-31 13:13+0100\n"
+"Last-Translator: Simon Kraft (krafit.de) <simon@krafit.de>\n"
+"Language-Team: Simon Kraft (trns.nl) <simon@krafit.de>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/alt-public-group-ctrl.php:23
+msgid "Control"
+msgstr "Mitgliedschafts-Kontrolle"
+
+#: includes/alt-public-group-ctrl.php:75
+msgctxt "post type general name"
+msgid "Groups front"
+msgstr "Gruppen-Startseite"
+
+#: includes/alt-public-group-ctrl.php:76
+msgctxt "post type singular name"
+msgid "Group front"
+msgstr "Gruppen-Startseite"
+
+#: includes/alt-public-group-ctrl.php:136
+msgid "This area is restricted to group members"
+msgstr "Dieser Bereich ist nur für Gruppenmitgliedern zugänglich"
+
+#: includes/alt-public-group-ctrl.php:145
+#: includes/alt-public-group-ctrl.php:305
+#: includes/alt-public-group-ctrl.php:306
+msgid "Request Membership"
+msgstr "Mitgliedschaft anfragen"
+
+#: includes/alt-public-group-ctrl.php:177
+msgid "Requests"
+msgstr "Anfragen"
+
+#: includes/alt-public-group-ctrl.php:191
+msgid ""
+"Your membership request was sent to the group administrator successfully. "
+"You will be notified when the group administrator responds to your request."
+msgstr ""
+"Deine Mitgliedschafts-Anfrage wurde registriert. Du wird benachrichtigt, "
+"sobald ein Gruppen-Administrator auf deine Anfrage reagiert."
+
+#: includes/alt-public-group-ctrl.php:279
+#: includes/alt-public-group-ctrl.php:280
+msgid "Accept Invitation"
+msgstr "Einladung annehmen"
+
+#: includes/alt-public-group-ctrl.php:292
+#: includes/alt-public-group-ctrl.php:293
+msgid "Request Sent"
+msgstr "Anfrage gesendet"
+
+#: includes/alt-public-group-ctrl.php:453
+msgid "Joining group"
+msgstr "Gruppenbeitritt"
+
+#: includes/alt-public-group-ctrl.php:456
+msgid "Users need to submit a request to join group"
+msgstr "Benutzer müssen den Beitritt zu dieser Gruppe beantragen"
+
+#: includes/alt-public-group-ctrl.php:463
+msgid "Group members only tabs"
+msgstr "Zugang limitieren"
+
+#: includes/alt-public-group-ctrl.php:479
+msgid "Use the checkboxes to choose the tabs to hide to non members"
+msgstr "Welche Tabs sollen nur für Mitglieder zugänglich sein?"
+
+#: includes/alt-public-group-ctrl.php:485
+msgid "Group&#39;s home page"
+msgstr "Gruppen-Startseite"
+
+#: includes/alt-public-group-ctrl.php:488
+msgid "Use a custom front page for non group members"
+msgstr "Zeige nicht angemeldeten Nutzern eine andere Gruppen-Startseite."
+
+#: includes/alt-public-group-ctrl.php:512
+msgid "Save"
+msgstr "Speichern"
+
+#: includes/alt-public-group-ctrl.php:573
+msgid "Settings saved successfully"
+msgstr "Einstellungen erfolgreich gespeichert"
