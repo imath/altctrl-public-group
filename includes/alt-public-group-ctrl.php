@@ -318,6 +318,10 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	public function maybe_disable_can_do( $can_do = true ) {
 		global $activities_template;
 
+		if ( empty( $activities_template ) ) {
+			return $can_do;
+		}
+		
 		if ( is_null( $activities_template ) ) {
 			return $can_do;
 		}
@@ -436,7 +440,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	public function create_screen_save( $group_id = null ) {}
 	public function admin_screen( $group_id = null ) {}
 	public function admin_screen_save( $group_id = null ) {}
-	public function display() {}
+	public function display( $group_id = null ) {}
 	public function widget_display() {}
 
 	/**
