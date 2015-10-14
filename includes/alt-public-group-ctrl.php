@@ -440,7 +440,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	public function create_screen_save( $group_id = null ) {}
 	public function admin_screen( $group_id = null ) {}
 	public function admin_screen_save( $group_id = null ) {}
-	public function display() {}
+	public function display( $group_id = null ) {}
 	public function widget_display() {}
 
 	/**
