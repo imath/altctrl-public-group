@@ -13,8 +13,8 @@ You can watch a demo of it [here](https://vimeo.com/98253453)
 Required Configurations
 ----------------------
 
-+ Built in WordPress 4.0-alpha-28611, should be ok with 3.9.1
-+ Built in BuddyPress 2.1-alpha, should be ok with 2.0.1
++ Built in WordPress 4.6, should be ok with 4.5
++ Built in BuddyPress & requires 2.6.0-alpha
 
 
 Installation

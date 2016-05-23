@@ -48,12 +48,11 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	 */
 	private function setup_hooks() {
 		// Actions
-		add_action( 'bp_actions',                                array( $this, 'control'              )        );
-		add_action( 'groups_screen_group_request_membership',    array( $this, 'maybe_restore_status' )        );
-		add_action( 'groups_screen_group_admin_requests',        array( $this, 'maybe_restore_status' )        );
-		add_action( 'groups_admin_tabs',                         array( $this, 'maybe_admin_requests' ), 10, 2 );
-		add_action( 'bp_after_group_request_membership_content', array( $this, 'maybe_request_info'   )        );
-		add_action( 'bp_enqueue_scripts',                        array( $this, 'enqueue_css'          )        );
+		add_action( 'bp_actions',                                array( $this, 'control'              ) );
+		add_action( 'groups_screen_group_request_membership',    array( $this, 'maybe_restore_status' ) );
+		add_action( 'groups_screen_group_admin_requests',        array( $this, 'maybe_restore_status' ) );
+		add_action( 'bp_after_group_request_membership_content', array( $this, 'maybe_request_info'   ) );
+		add_action( 'bp_enqueue_scripts',                        array( $this, 'enqueue_css'          ) );
 
 		// Filters
 		add_filter( 'bp_has_groups',            array( $this, 'append_need_request'   ), 10, 3 );
@@ -107,6 +106,18 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		$hidden_tabs = (array) groups_get_groupmeta( $this->group->id, '_altctrl_tabs', true );
 		$this->group->need_request = groups_get_groupmeta( $this->group->id, '_altctrl_request', true );
 
+		if ( ! empty( $this->group->need_request ) && bp_is_group_admin_page() ) {
+			bp_core_new_subnav_item( array(
+				'name'               => __( 'Requests', 'altctrl-public-group' ),
+				'slug'               => 'membership-requests',
+				'parent_url'         => bp_get_groups_action_link( 'admin' ),
+				'parent_slug'        => $this->group->slug . '_manage',
+				'screen_function'    => 'groups_screen_group_admin',
+				'user_has_access'    => bp_is_item_admin(),
+				'position'           => 40
+			), 'groups' );
+		}
+
 		// Managing requests
 		if ( bp_is_group_admin_screen( 'membership-requests' ) && bp_is_item_admin() ) {
 			$bp->groups->current_group->status = 'private';
@@ -120,13 +131,9 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		/** Group members only tabs ***************************************************/
 
 		// Hide tabs
-		if ( ! empty( $bp->bp_options_nav[ $this->group->slug ] ) && ! empty( $hidden_tabs ) ) {
-			foreach ( array_keys( $bp->bp_options_nav[ $this->group->slug ] ) as $item_tab ) {
-				if ( ! in_array( $item_tab, $hidden_tabs ) ) {
-					continue;
-				}
-
-				$bp->bp_options_nav[ $this->group->slug ][ $item_tab ]['user_has_access'] = false;
+		if ( ! empty( $hidden_tabs ) ) {
+			foreach ( $hidden_tabs as $item_tab ) {
+				$bp->groups->nav->edit_nav( array( 'user_has_access' => false ), $item_tab, $this->group->slug );
 			}
 		}
 
@@ -147,7 +154,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 				'parent_slug'        => $this->group->slug,
 				'screen_function'    => 'groups_screen_group_request_membership',
 				'position'           => 30
-			) );
+			), 'groups' );
 
 			// Then temporarly make the group private.
 			if ( bp_is_group_membership_request() ) {
@@ -163,18 +170,6 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		if ( ! empty( $this->group->need_request ) ) {
 			buddypress()->groups->current_group->status = 'public';
 		}
-	}
-
-	/**
-	 * Add an admin tab to manage the requests (for public group) if needed
-	 */
-	public function maybe_admin_requests( $current_tab = '', $group_slug = '' ) {
-		if ( empty( $this->group->need_request ) || $group_slug != $this->group->slug ) {
-			return;
-		}
-		?>
-		<li<?php if ( 'membership-requests' == $current_tab ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_get_group_permalink( $this->group ) . 'admin/membership-requests' ) ?>"><?php _e( 'Requests', 'altctrl-public-group' ); ?></a></li>
-		<?php
 	}
 
 	/**
@@ -446,6 +441,8 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		if ( empty( $tabs ) ) {
 			$tabs = array();
 		}
+
+		$group_nav_items = $bp->groups->nav->get_secondary( array( 'parent_slug' => $this->group->slug ), false );
 		?>
 		<h4><?php esc_html_e( 'Joining group', 'altctrl-public-group' );?></h4>
 
@@ -453,19 +450,20 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 			<label><input type="checkbox" name="_altctrl[request]" value="1" <?php checked( $request )?>> <?php esc_html_e( 'Users need to submit a request to join group', 'altctrl-public-group' );?></label>
 		</div>
 
-		<?php if ( ! empty( $bp->bp_options_nav[ $this->group->slug ] ) ) : ?>
+		<?php if ( ! empty( $group_nav_items ) ) : ?>
 
 			<hr />
 
 			<h4><?php esc_html_e( 'Group members only tabs', 'altctrl-public-group' );?></h4>
 
-			<?php foreach( $bp->bp_options_nav[ $this->group->slug ] as $nav_item ) {
-				if ( in_array( $nav_item['slug'], array( 'home', 'send-invites', 'admin' ) ) ) {
+			<?php foreach( $group_nav_items as $nav_item ) {
+				if ( in_array( $nav_item->slug, array( 'home', 'send-invites', 'admin' ) ) ) {
 					continue;
 				}
-				$item_name = preg_replace( '/([.0-9]+)/', '', $nav_item['name'] );
+
+				$item_name = preg_replace( '/([.0-9]+)/', '', $nav_item->name );
 				$item_name = trim( strip_tags( $item_name ) );
-				$item_slug = $nav_item['slug'];
+				$item_slug = $nav_item->slug;
 				?>
 				<div class="checkbox">
 					<label><input type="checkbox" name="_altctrl[tabs][]" value="<?php echo esc_attr( $item_slug );?>" <?php checked( in_array( $item_slug, $tabs ) )?>> <?php echo esc_html( $item_name );?></label>
@@ -519,9 +517,9 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	 * Save the settings of the group
 	 */
 	public function edit_screen_save( $group_id = null ) {
-
-		if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+		if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 			return false;
+		}
 
 		check_admin_referer( 'groups_edit_save_' . $this->slug, 'altctrl' );
 
