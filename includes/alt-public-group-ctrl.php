@@ -56,7 +56,6 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		add_action( 'bp_enqueue_scripts',                        array( $this, 'enqueue_css'          )        );
 
 		// Filters
-		add_filter( 'bp_get_template_stack',    array( $this, 'add_to_template_stack' ), 10, 1 );
 		add_filter( 'bp_has_groups',            array( $this, 'append_need_request'   ), 10, 3 );
 		add_filter( 'bp_get_group_join_button', array( $this, 'join_button'           ), 10, 1 );
 		add_filter( 'bp_activity_can_comment',  array( $this, 'maybe_disable_can_do'  ), 10, 1 );
@@ -220,16 +219,6 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	/** Filters *******************************************************************/
 
 	/**
-	 * Add the plugin templates folder to the BuddyPress templates stack
-	 */
-	public function add_to_template_stack( $templates = array() ) {
-		if ( $this->show_front_page() ) {
-			$templates = array_merge( $templates, array( buddypress()->altctrl->templates_dir ) );
-		}
-		return $templates;
-	}
-
-	/**
 	 * Append a flag to indicate if the public group needs the user
 	 * to request a membership into the groups loop
 	 */
@@ -356,7 +345,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	/**
 	 * Should we show the group's custom front page ?
 	 */
-	private function show_front_page() {
+	public static function show_front_page() {
 		$retval = false;
 
 		if ( bp_is_group_create() ) {
@@ -377,7 +366,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 			return $retval;
 		}
 
-		if ( ! groups_is_user_member( bp_loggedin_user_id(), $group_id ) && $this->has_front_page( $group_id ) ) {
+		if ( ! groups_is_user_member( bp_loggedin_user_id(), $group_id ) && self::has_front_page( $group_id ) ) {
 			$retval = true;
 		}
 
@@ -387,7 +376,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	/**
 	 * Does the group has a custom front page ?
 	 */
-	private function has_front_page( $group_id = 0 ) {
+	public static function has_front_page( $group_id = 0 ) {
 		if ( empty( $group_id ) ) {
 			return false;
 		}
@@ -451,7 +440,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		$group_id = empty( $group_id ) ? bp_get_current_group_id() : $group_id;
 
 		$request  = apply_filters( 'alt_public_group_ctrl_users_request', groups_get_groupmeta( $group_id, '_altctrl_request', true ) );
-		$page_id  = absint( $this->has_front_page( $group_id ) );
+		$page_id  = absint( self::has_front_page( $group_id ) );
 
 		$tabs = groups_get_groupmeta( $group_id, '_altctrl_tabs', true );
 		if ( empty( $tabs ) ) {

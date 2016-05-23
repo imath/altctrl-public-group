@@ -82,6 +82,21 @@ class Alt_Public_Group_Ctrl_Loader {
 	 */
 	private function setup_actions() {
 		add_action( 'bp_init', array( $this, 'load_textdomain' ), 5 );
+
+		if ( bp_is_active( 'groups' ) ) {
+			add_filter( 'bp_get_template_stack', array( $this, 'add_to_template_stack' ), 10, 1 );
+		}
+	}
+
+	/**
+	 * Add the plugin templates folder to the BuddyPress templates stack
+	 */
+	public function add_to_template_stack( $templates = array() ) {
+		if ( Alt_Public_Group_Ctrl::show_front_page() ) {
+			$templates = array_merge( $templates, array( buddypress()->altctrl->templates_dir ) );
+		}
+
+		return $templates;
 	}
 
 	/**
