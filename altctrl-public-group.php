@@ -11,7 +11,7 @@
  * Plugin Name:       Alternative Public Group Control
  * Plugin URI:        http://imathi.eu/2014/06/15/altctrl-public-group/
  * Description:       Experimental BuddyPress plugin to provide an alternative control to group admins on their public groups.
- * Version:           1.1.0-beta
+ * Version:           2.0.0-alpha
  * Author:            imath
  * Author URI:        http://imathi.eu
  * Text Domain:       altctrl-public-group
@@ -48,14 +48,13 @@ class Alt_Public_Group_Ctrl_Loader {
 	public function __construct() {
 		$this->setup_globals();
 		$this->includes();
-		$this->setup_actions();
 	}
 
 	/**
 	 * Set the includes and templates dirs
 	 */
 	private function setup_globals() {
-		$this->version       = '1.1.0-beta';
+		$this->version       = '2.0.0-alpha';
 		$this->domain        = 'altctrl-public-group';
 		$this->includes_dir  = trailingslashit( plugin_dir_path( __FILE__ ) . 'includes'  );
 		$this->templates_dir = trailingslashit( plugin_dir_path( __FILE__ ) . 'templates' );
@@ -74,7 +73,7 @@ class Alt_Public_Group_Ctrl_Loader {
 			return false;
 		}
 
-		return version_compare( BP_VERSION, '2.6.0-alpha', '>=' );
+		return version_compare( BP_VERSION, '2.6.0', '>=' );
 	}
 
 	/**
@@ -87,59 +86,12 @@ class Alt_Public_Group_Ctrl_Loader {
 			return;
 		}
 
+		require $this->includes_dir . 'functions.php';
 		require $this->includes_dir . 'alt-public-group-ctrl.php';
 
 		if ( is_admin() ) {
 			require $this->includes_dir . 'settings.php';
 		}
-	}
-
-	/**
-	 * Hook to bp_init to load translation
-	 *
-	 * @since 1.0.0
-	 */
-	private function setup_actions() {
-		add_action( 'bp_init', array( $this, 'load_textdomain' ), 5 );
-
-		if ( bp_is_active( 'groups' ) && $this->bp_version_check() ) {
-			add_filter( 'bp_get_template_stack', array( $this, 'add_to_template_stack' ), 10, 1 );
-		}
-	}
-
-	/**
-	 * Add the plugin templates folder to the BuddyPress templates stack
-	 */
-	public function add_to_template_stack( $templates = array() ) {
-		if ( Alt_Public_Group_Ctrl::show_front_page() ) {
-			$templates = array_merge( $templates, array( buddypress()->altctrl->templates_dir ) );
-		}
-
-		return $templates;
-	}
-
-	/**
-	 * Load the translation files
-	 *
-	 * @since 1.0.0
-	 */
-	public function load_textdomain() {
-		// Traditional WordPress plugin locale filter
-		$locale        = apply_filters( 'plugin_locale', get_locale(), $this->domain );
-		$mofile        = sprintf( '%1$s-%2$s.mo', $this->domain, $locale );
-
-		// Setup paths to current locale file
-		$mofile_local  = $this->lang_dir . $mofile;
-		$mofile_global = WP_LANG_DIR . '/altctrl-public-group/' . $mofile;
-
-		// Look in global /wp-content/languages/altctrl-public-group folder
-		load_textdomain( $this->domain, $mofile_global );
-
-		// Look in local /wp-content/plugins/altctrl-public-group/languages/ folder
-		load_textdomain( $this->domain, $mofile_local );
-
-		// Look in global /wp-content/languages/plugins/
-		load_plugin_textdomain( $this->domain );
 	}
 }
 add_action( 'bp_include', array( 'Alt_Public_Group_Ctrl_Loader', 'start' ) );

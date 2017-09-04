@@ -10,10 +10,15 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Registers Visibility restriction setting.
+ *
+ * @since 2.0.0
+ */
 function apgc_settings() {
 	add_settings_field(
 		'_apgc_restrict_group_visibility',
-		__( 'Available Group visibilities', 'buddypress' ),
+		__( 'Available Group visibilities', 'altctrl-public-group' ),
 		'apgc_settings_group_visibility_callback',
 		'buddypress',
 		'bp_groups'
@@ -23,16 +28,16 @@ function apgc_settings() {
 }
 add_action( 'bp_register_admin_settings', 'apgc_settings', 11 );
 
+/**
+ * Displays the Visibility restriction setting.
+ *
+ * @since 2.0.0
+ */
 function apgc_settings_group_visibility_callback() {
-	$visibilities = array(
-		'public-open'      => __( 'Public', 'altctrl-public-group' ),
-		'public-subscribe' => __( 'Public with subsription', 'altctrl-public-group' ),
-		'public-invite'    => __( 'Public invited only', 'altctrl-public-group' ),
-		'private-hidden'   => __( 'Private or Hidden', 'altctrl-public-group' ),
-	);
+	$visibilities = wp_list_pluck( apgc_get_visibility_levels(), 'title', 'id' );
+	$setting      = apgc_get_allowed_visibility_levels();
+	$disabled     = '';
 
-	$setting  = (array) bp_get_option( '_apgc_restrict_group_visibility', array( 'public-open', 'public-subscribe' ) );
-	$disabled  = '';
 	if ( bp_restrict_group_creation() ) {
 		$disabled  = ' disabled="disabled"';
 	}
@@ -45,7 +50,7 @@ function apgc_settings_group_visibility_callback() {
 			<?php foreach ( $visibilities as $key => $visibility ) :
 
 				$readonly = '';
-				if ( in_array( $key, array( 'public-open', 'public-subscribe' ), true ) ) {
+				if ( in_array( $key, array( 'public-open', 'public-request' ), true ) ) {
 					$readonly = ' readonly="readonly"';
 				}
 			?>
@@ -63,8 +68,16 @@ function apgc_settings_group_visibility_callback() {
 	<?php
 }
 
+/**
+ * Sanitizes the Visibility restriction setting.
+ *
+ * @since 2.0.0
+ *
+ * @param  mixed $option The option value.
+ * @return array         The option value.
+ */
 function apgc_settings_sanitize_visibility_restrictions( $option = '' ) {
-	$option = array_merge( (array) $option, array( 'public-open', 'public-subscribe' ) );
+	$option = array_merge( (array) $option, array( 'public-open', 'public-request' ) );
 
 	return array_map( 'sanitize_key', $option );
 }
