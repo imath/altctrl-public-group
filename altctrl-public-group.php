@@ -11,7 +11,7 @@
  * Plugin Name:       Alternative Public Group Control
  * Plugin URI:        http://imathi.eu/2014/06/15/altctrl-public-group/
  * Description:       Experimental BuddyPress plugin to provide an alternative control to group admins on their public groups.
- * Version:           1.0.0-beta
+ * Version:           1.1.0-beta
  * Author:            imath
  * Author URI:        http://imathi.eu
  * Text Domain:       altctrl-public-group
@@ -55,7 +55,7 @@ class Alt_Public_Group_Ctrl_Loader {
 	 * Set the includes and templates dirs
 	 */
 	private function setup_globals() {
-		$this->version       = '1.0.0-beta';
+		$this->version       = '1.1.0-beta';
 		$this->domain        = 'altctrl-public-group';
 		$this->includes_dir  = trailingslashit( plugin_dir_path( __FILE__ ) . 'includes'  );
 		$this->templates_dir = trailingslashit( plugin_dir_path( __FILE__ ) . 'templates' );
@@ -64,14 +64,29 @@ class Alt_Public_Group_Ctrl_Loader {
 	}
 
 	/**
+	 * Checks BuddyPress version
+	 * 
+	 * @since 1.1.0
+	 */
+	public function bp_version_check() {
+		// taking no risk
+		if ( ! defined( 'BP_VERSION' ) ) {
+			return false;
+		}
+
+		return version_compare( BP_VERSION, '2.6.0-alpha', '>=' );
+	}
+
+	/**
 	 * Include the needed file
 	 *
 	 * @since 1.0.0
 	 */
 	private function includes() {
-		if ( ! bp_is_active( 'groups' ) ) {
+		if ( ! bp_is_active( 'groups' ) || ! $this->bp_version_check() ) {
 			return;
 		}
+
 		require( $this->includes_dir . 'alt-public-group-ctrl.php' );
 	}
 
@@ -83,7 +98,7 @@ class Alt_Public_Group_Ctrl_Loader {
 	private function setup_actions() {
 		add_action( 'bp_init', array( $this, 'load_textdomain' ), 5 );
 
-		if ( bp_is_active( 'groups' ) ) {
+		if ( bp_is_active( 'groups' ) && $this->bp_version_check() ) {
 			add_filter( 'bp_get_template_stack', array( $this, 'add_to_template_stack' ), 10, 1 );
 		}
 	}
