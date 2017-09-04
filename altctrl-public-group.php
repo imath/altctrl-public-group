@@ -65,7 +65,7 @@ class Alt_Public_Group_Ctrl_Loader {
 
 	/**
 	 * Checks BuddyPress version
-	 * 
+	 *
 	 * @since 1.1.0
 	 */
 	public function bp_version_check() {
@@ -87,7 +87,11 @@ class Alt_Public_Group_Ctrl_Loader {
 			return;
 		}
 
-		require( $this->includes_dir . 'alt-public-group-ctrl.php' );
+		require $this->includes_dir . 'alt-public-group-ctrl.php';
+
+		if ( is_admin() ) {
+			require $this->includes_dir . 'settings.php';
+		}
 	}
 
 	/**
@@ -116,7 +120,7 @@ class Alt_Public_Group_Ctrl_Loader {
 
 	/**
 	 * Load the translation files
-	 * 
+	 *
 	 * @since 1.0.0
 	 */
 	public function load_textdomain() {
