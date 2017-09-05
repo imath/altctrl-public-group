@@ -97,6 +97,10 @@ function apgc_load_textdomain() {
 }
 add_action( 'bp_init', 'apgc_load_textdomain', 5 );
 
+function apgc_can_current_user_do_private_groups() {
+	return in_array( 'private-hidden', apgc_get_visibility_levels(), true ) || bp_current_user_can( 'bp_moderate' );
+}
+
 /**
  * Should the plugin override BuddyPress build-in templates ?
  *
@@ -107,8 +111,12 @@ add_action( 'bp_init', 'apgc_load_textdomain', 5 );
 function apgc_override_template_stack() {
 	$return = Alt_Public_Group_Ctrl::show_front_page();
 
-	if ( ! $return && bp_is_group_create() && bp_is_group_creation_step( 'group-settings' ) ) {
-		$return = ! in_array( 'private-hidden', apgc_get_visibility_levels(), true ) && ! bp_current_user_can( 'bp_moderate' );
+	if ( ! $return && ! apgc_can_current_user_do_private_groups() ) {
+		if ( bp_is_group_create() ) {
+			$return = bp_is_group_creation_step( 'group-settings' );
+		} else {
+			$return = bp_is_group_admin_screen( 'group-settings' );
+		}
 	}
 
 	return $return;
@@ -238,7 +246,7 @@ function apgc_group_update_visibility_level( $group_id = 0, $visibility = 'publi
 }
 
 /**
- * Creates the Public group's visibility setting (during the group's creation process).
+ * Creates/Edits the Public group's visibility setting.
  *
  * @since 2.0.0
  */
@@ -255,7 +263,11 @@ function apgc_group_create_group_visibility_setting() {
 
 	if ( ! apgc_group_update_visibility_level( $group_id, $_POST['_altctrl_visibility_level'] ) ) {
 		bp_core_add_message( __( 'There was an error saving the group privacy option. Please try again.', 'altctrl-public-group' ), 'error' );
-		bp_core_redirect( trailingslashit( bp_get_groups_directory_permalink() . 'create/step/' . bp_get_groups_current_create_step() ) );
+
+		if ( bp_is_group_create() ) {
+			$redirect = bp_core_redirect( trailingslashit( bp_get_groups_directory_permalink() . 'create/step/' . bp_get_groups_current_create_step() ) );
+		}
 	}
 }
 add_action( 'groups_create_group_step_save_group-settings', 'apgc_group_create_group_visibility_setting' );
+add_action( 'groups_group_settings_edited',                 'apgc_group_create_group_visibility_setting' );

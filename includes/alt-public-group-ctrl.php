@@ -199,7 +199,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		$css_args = apply_filters( 'altctrl_public_group_css', array(
 			'handle'  => 'altctrl-public-group-css',
 			'src'     => $bp->altctrl->css_url . 'altctrl-public-group.css',
-			'deps'    => array(), 
+			'deps'    => array(),
 			'version' => $bp->altctrl->version,
 		) );
 
@@ -207,7 +207,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		if ( empty( $css_args ) ) {
 			return;
 		}
-		
+
 		wp_enqueue_style( $css_args['handle'], $css_args['src'], $css_args['deps'], $css_args['version'] );
 	}
 
@@ -305,7 +305,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		if ( empty( $activities_template ) ) {
 			return $can_do;
 		}
-		
+
 		if ( is_null( $activities_template ) ) {
 			return $can_do;
 		}
@@ -444,15 +444,22 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 
 		$group_nav_items = $bp->groups->nav->get_secondary( array( 'parent_slug' => $this->group->slug ), false );
 		?>
-		<h4><?php esc_html_e( 'Joining group', 'altctrl-public-group' );?></h4>
 
-		<div class="checkbox">
-			<label><input type="checkbox" name="_altctrl[request]" value="1" <?php checked( $request )?>> <?php esc_html_e( 'Users need to submit a request to join group', 'altctrl-public-group' );?></label>
-		</div>
+		<?php if ( apgc_can_current_user_do_private_groups() ) :
+			/**
+			 * @todo the '_altctrl_request' is not used anymore, change this part
+			 * and use the new `apgc_group_visibility_options()` function.
+			 */
+		?>
+			<h4><?php esc_html_e( 'Joining group', 'altctrl-public-group' );?></h4>
+
+			<div class="checkbox">
+				<label><input type="checkbox" name="_altctrl[request]" value="1" <?php checked( $request )?>> <?php esc_html_e( 'Users need to submit a request to join group', 'altctrl-public-group' );?></label>
+			</div>
+
+		<?php endif ;?>
 
 		<?php if ( ! empty( $group_nav_items ) ) : ?>
-
-			<hr />
 
 			<h4><?php esc_html_e( 'Group members only tabs', 'altctrl-public-group' );?></h4>
 
@@ -512,7 +519,6 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		<?php
 	}
 
-
 	/**
 	 * Save the settings of the group
 	 */
@@ -533,10 +539,16 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 			$altctrl = $_POST['_altctrl'];
 		}
 
-		if ( ! empty( $altctrl['request'] ) ) {
-			groups_update_groupmeta( $group_id, '_altctrl_request', absint( $altctrl['request'] ) );
-		} else {
-			groups_delete_groupmeta( $group_id, '_altctrl_request' );
+		/**
+		 * @todo the '_altctrl_request' is not used anymore, change this part
+		 * and use the new '_altctrl_visibility_level' group meta.
+		 */
+		if ( isset( $altctrl['request'] ) ) {
+			if ( ! $altctrl['request'] ) {
+				groups_delete_groupmeta( $group_id, '_altctrl_request' );
+			} else {
+				groups_update_groupmeta( $group_id, '_altctrl_request', absint( $altctrl['request'] ) );
+			}
 		}
 
 		if ( ! empty( $altctrl['tabs'] ) ) {

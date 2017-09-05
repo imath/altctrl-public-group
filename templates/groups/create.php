@@ -67,7 +67,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 			<fieldset class="group-create-privacy">
 
-				<legend><?php _e( 'Privacy Options', 'altctrl-public-group' ); ?></legend>
+				<legend><?php esc_html_e( 'Privacy Options', 'altctrl-public-group' ); ?></legend>
 
 				<div class="radio">
 
@@ -85,9 +85,9 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php if ( $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ) ): ?>
 
 				<fieldset class="group-create-types">
-					<legend><?php _e( 'Group Types', 'altctrl-public-group' ); ?></legend>
+					<legend><?php esc_html_e( 'Group Types', 'altctrl-public-group' ); ?></legend>
 
-					<p><?php _e( 'Select the types this group should be a part of.', 'altctrl-public-group' ); ?></p>
+					<p><?php esc_html_e( 'Select the types this group should be a part of.', 'altctrl-public-group' ); ?></p>
 
 					<?php foreach ( $group_types as $type ) : ?>
 						<div class="checkbox">
@@ -115,17 +115,17 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 				<fieldset class="group-create-invitations">
 
-					<legend><?php _e( 'Group Invitations', 'altctrl-public-group' ); ?></legend>
+					<legend><?php esc_html_e( 'Group Invitations', 'altctrl-public-group' ); ?></legend>
 
-					<p><?php _e( 'Which members of this group are allowed to invite others?', 'altctrl-public-group' ); ?></p>
+					<p><?php esc_html_e( 'Which members of this group are allowed to invite others?', 'altctrl-public-group' ); ?></p>
 
 					<div class="radio">
 
-						<label for="group-invite-status-members"><input type="radio" name="group-invite-status" id="group-invite-status-members" value="members"<?php bp_group_show_invite_status_setting( 'members' ); ?> /> <?php _e( 'All group members', 'altctrl-public-group' ); ?></label>
+						<label for="group-invite-status-members"><input type="radio" name="group-invite-status" id="group-invite-status-members" value="members"<?php bp_group_show_invite_status_setting( 'members' ); ?> /> <?php esc_html_e( 'All group members', 'altctrl-public-group' ); ?></label>
 
-						<label for="group-invite-status-mods"><input type="radio" name="group-invite-status" id="group-invite-status-mods" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ); ?> /> <?php _e( 'Group admins and mods only', 'altctrl-public-group' ); ?></label>
+						<label for="group-invite-status-mods"><input type="radio" name="group-invite-status" id="group-invite-status-mods" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ); ?> /> <?php esc_html_e( 'Group admins and mods only', 'altctrl-public-group' ); ?></label>
 
-						<label for="group-invite-status-admins"><input type="radio" name="group-invite-status" id="group-invite-status-admins" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ); ?> /> <?php _e( 'Group admins only', 'altctrl-public-group' ); ?></label>
+						<label for="group-invite-status-admins"><input type="radio" name="group-invite-status" id="group-invite-status-admins" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ); ?> /> <?php esc_html_e( 'Group admins only', 'altctrl-public-group' ); ?></label>
 
 					</div>
 
@@ -139,7 +139,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 			<?php if ( bp_is_active( 'forums' ) && bp_current_user_can( 'manage_network_options' ) ) : ?>
 
-				<h4><?php _e( 'Group Forums', 'altctrl-public-group' ); ?></h4>
+				<h4><?php esc_html_e( 'Group Forums', 'altctrl-public-group' ); ?></h4>
 
 					<p class="attention"><?php esc_html_e( 'Attention Site Admin: the legacy Group forums are retired and not supported by the Alternative Public Group Control plugin.', 'altctrl-public-group' ); ?></p>
 
