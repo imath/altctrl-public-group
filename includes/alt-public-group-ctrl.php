@@ -37,10 +37,10 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 			)
 		);
 
-        parent::init( $args );
+    parent::init( $args );
 
-        $this->setup_hooks();
-        $this->register_post_type();
+    $this->setup_hooks();
+    $this->register_post_type();
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 
 		// Append to current group the control settings
 		$hidden_tabs = (array) groups_get_groupmeta( $this->group->id, '_altctrl_tabs', true );
-		$this->group->need_request = groups_get_groupmeta( $this->group->id, '_altctrl_request', true );
+		$this->group->need_request = 'public-request' === apgc_group_get_visibility_level( $this->group->id );
 
 		if ( ! empty( $this->group->need_request ) && bp_is_group_admin_page() ) {
 			bp_core_new_subnav_item( array(
@@ -230,7 +230,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		if ( ! empty( $altctrl_metas ) ) {
 			foreach( $groups_template->groups as $key => $group ) {
 
-				if ( ! empty( $altctrl_metas[ $group->id ]->need_request ) ) {
+				if ( isset( $altctrl_metas[ $group->id ]->need_request ) && 'public-request' === $altctrl_metas[ $group->id ]->need_request ) {
 					$groups_template->groups[ $key ]->need_request = true;
 				}
 			}
@@ -327,7 +327,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		}
 
 		if ( ! isset( self::$needs_group_request[ $activities_template->activity->item_id ] ) ) {
-			self::$needs_group_request[ $activities_template->activity->item_id ] = ! groups_get_groupmeta( $activities_template->activity->item_id, '_altctrl_request', true );
+			self::$needs_group_request[ $activities_template->activity->item_id ] = 'public-request' !== apgc_group_get_visibility_level( $activities_template->activity->item_id );
 		}
 
 		$can_do = (bool) self::$needs_group_request[ $activities_template->activity->item_id ];
@@ -407,7 +407,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 			$groups = wp_parse_id_list( $groups );
 		}
 
-		$is_meta_key = '_altctrl_request';
+		$is_meta_key = '_altctrl_visibility_level';
 		$group_in = "'" . implode( "','", $groups ) . "'";
 
 		$altctrl_metas = $wpdb->get_results( $wpdb->prepare( "SELECT group_id, meta_value as need_request FROM {$groupmeta_table} WHERE group_id IN ( $group_in ) AND meta_key LIKE %s", $is_meta_key ), OBJECT_K );
@@ -433,8 +433,6 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	public function edit_screen( $group_id = null ) {
 		$bp = buddypress();
 		$group_id = empty( $group_id ) ? bp_get_current_group_id() : $group_id;
-
-		$request  = apply_filters( 'alt_public_group_ctrl_users_request', groups_get_groupmeta( $group_id, '_altctrl_request', true ) );
 		$page_id  = absint( self::has_front_page( $group_id ) );
 
 		$tabs = groups_get_groupmeta( $group_id, '_altctrl_tabs', true );
@@ -445,17 +443,10 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		$group_nav_items = $bp->groups->nav->get_secondary( array( 'parent_slug' => $this->group->slug ), false );
 		?>
 
-		<?php if ( apgc_can_current_user_do_private_groups() ) :
-			/**
-			 * @todo the '_altctrl_request' is not used anymore, change this part
-			 * and use the new `apgc_group_visibility_options()` function.
-			 */
-		?>
+		<?php if ( apgc_can_current_user_do_private_groups() ) : ?>
 			<h4><?php esc_html_e( 'Joining group', 'altctrl-public-group' );?></h4>
 
-			<div class="checkbox">
-				<label><input type="checkbox" name="_altctrl[request]" value="1" <?php checked( $request )?>> <?php esc_html_e( 'Users need to submit a request to join group', 'altctrl-public-group' );?></label>
-			</div>
+			<?php apgc_group_visibility_options() ;?>
 
 		<?php endif ;?>
 
@@ -539,16 +530,9 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 			$altctrl = $_POST['_altctrl'];
 		}
 
-		/**
-		 * @todo the '_altctrl_request' is not used anymore, change this part
-		 * and use the new '_altctrl_visibility_level' group meta.
-		 */
-		if ( isset( $altctrl['request'] ) ) {
-			if ( ! $altctrl['request'] ) {
-				groups_delete_groupmeta( $group_id, '_altctrl_request' );
-			} else {
-				groups_update_groupmeta( $group_id, '_altctrl_request', absint( $altctrl['request'] ) );
-			}
+		// Update the visibility level.
+		if ( isset( $_POST['_altctrl_visibility_level'] ) ) {
+			apgc_group_update_visibility_level( $group_id, $_POST['_altctrl_visibility_level'] );
 		}
 
 		if ( ! empty( $altctrl['tabs'] ) ) {
