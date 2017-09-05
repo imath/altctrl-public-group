@@ -107,23 +107,35 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 			<?php endif; ?>
 
-			<fieldset class="group-create-invitations">
+			<?php
+			/**
+			 * It's only making sense if the Friends component is active.
+			 */
+			if ( bp_is_active( 'friends' ) ) : ?>
 
-				<legend><?php _e( 'Group Invitations', 'altctrl-public-group' ); ?></legend>
+				<fieldset class="group-create-invitations">
 
-				<p><?php _e( 'Which members of this group are allowed to invite others?', 'altctrl-public-group' ); ?></p>
+					<legend><?php _e( 'Group Invitations', 'altctrl-public-group' ); ?></legend>
 
-				<div class="radio">
+					<p><?php _e( 'Which members of this group are allowed to invite others?', 'altctrl-public-group' ); ?></p>
 
-					<label for="group-invite-status-members"><input type="radio" name="group-invite-status" id="group-invite-status-members" value="members"<?php bp_group_show_invite_status_setting( 'members' ); ?> /> <?php _e( 'All group members', 'altctrl-public-group' ); ?></label>
+					<div class="radio">
 
-					<label for="group-invite-status-mods"><input type="radio" name="group-invite-status" id="group-invite-status-mods" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ); ?> /> <?php _e( 'Group admins and mods only', 'altctrl-public-group' ); ?></label>
+						<label for="group-invite-status-members"><input type="radio" name="group-invite-status" id="group-invite-status-members" value="members"<?php bp_group_show_invite_status_setting( 'members' ); ?> /> <?php _e( 'All group members', 'altctrl-public-group' ); ?></label>
 
-					<label for="group-invite-status-admins"><input type="radio" name="group-invite-status" id="group-invite-status-admins" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ); ?> /> <?php _e( 'Group admins only', 'altctrl-public-group' ); ?></label>
+						<label for="group-invite-status-mods"><input type="radio" name="group-invite-status" id="group-invite-status-mods" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ); ?> /> <?php _e( 'Group admins and mods only', 'altctrl-public-group' ); ?></label>
 
-				</div>
+						<label for="group-invite-status-admins"><input type="radio" name="group-invite-status" id="group-invite-status-admins" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ); ?> /> <?php _e( 'Group admins only', 'altctrl-public-group' ); ?></label>
 
-			</fieldset>
+					</div>
+
+				</fieldset>
+
+			<?php else : ?>
+
+				<input type="hidden" name="group-invite-status" value="members"/>
+
+			<?php endif ; ?>
 
 			<?php if ( bp_is_active( 'forums' ) && bp_current_user_can( 'manage_network_options' ) ) : ?>
 

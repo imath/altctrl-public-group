@@ -165,9 +165,10 @@ function apgc_group_visibility_options() {
 
 	$output = array();
 	foreach ( $visibilities as $visibility ) {
-		if ( ! in_array( $visibility['id'], $allowed, true ) ) {
+		if ( ! in_array( $visibility['id'], $allowed, true ) || ( 'public-invite' === $visibility['id'] && ! bp_is_active( 'friends' ) ) ) {
 			continue;
 		}
+
 		$checked = ' ' . checked( $current, $visibility['id'], false );
 		$output[] = sprintf(
 			'<label for="apgc-group-visibility-%1$s">

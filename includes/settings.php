@@ -36,11 +36,7 @@ add_action( 'bp_register_admin_settings', 'apgc_settings', 11 );
 function apgc_settings_group_visibility_callback() {
 	$visibilities = wp_list_pluck( apgc_get_visibility_levels(), 'title', 'id' );
 	$setting      = apgc_get_allowed_visibility_levels();
-	$disabled     = '';
-
-	if ( bp_restrict_group_creation() ) {
-		$disabled  = ' disabled="disabled"';
-	}
+	$is_restriced = bp_restrict_group_creation();
 	?>
 
 	<fieldset style="border: solid 1px #ccc; margin-bottom: 1em">
@@ -52,6 +48,11 @@ function apgc_settings_group_visibility_callback() {
 				$readonly = '';
 				if ( in_array( $key, array( 'public-open', 'public-request' ), true ) ) {
 					$readonly = ' readonly="readonly"';
+				}
+
+				$disabled = '';
+				if ( $is_restriced || ( $key === 'public-invite' && ! bp_is_active( 'friends' ) ) ) {
+					$disabled  = ' disabled="disabled"';
 				}
 			?>
 				<li>
