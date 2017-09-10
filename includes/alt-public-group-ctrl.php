@@ -17,8 +17,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	 * construct method to add some settings and hooks
 	 */
 	public function __construct() {
-
-		$args = array(
+		parent::init(  array(
 			'slug'              => 'control',
 			'name'              => __( 'Control', 'altctrl-public-group' ),
 			'visibility'        => 'private',
@@ -34,13 +33,11 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 				'edit' => array(
 					'enabled' => $this->is_public_group() && ! apgc_disable_group_control_screen(),
 				),
-			)
-		);
+			),
+		) );
 
-    parent::init( $args );
-
-    $this->setup_hooks();
-    $this->register_post_type();
+		$this->setup_hooks();
+		$this->register_post_type();
 	}
 
 	/**
@@ -103,8 +100,11 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		}
 
 		// Append to current group the control settings
-		$hidden_tabs = (array) groups_get_groupmeta( $this->group->id, '_altctrl_tabs', true );
-		$this->group->need_request = 'public-request' === apgc_group_get_visibility_level( $this->group->id );
+		$hidden_tabs  = (array) groups_get_groupmeta( $this->group->id, '_altctrl_tabs', true );
+		$need_request = apgc_group_get_visibility_level( $this->group->id );
+
+		$this->group->need_request = 'public-request' === $need_request;
+		$this->group->need_invite  = 'public-invite'  === $need_request;
 
 		if ( ! empty( $this->group->need_request ) && bp_is_group_admin_page() ) {
 			bp_core_new_subnav_item( array(
@@ -230,8 +230,14 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		if ( ! empty( $altctrl_metas ) ) {
 			foreach( $groups_template->groups as $key => $group ) {
 
-				if ( isset( $altctrl_metas[ $group->id ]->need_request ) && 'public-request' === $altctrl_metas[ $group->id ]->need_request ) {
+				if ( ! isset( $altctrl_metas[ $group->id ]->need_request ) ) {
+					continue;
+				}
+
+				if ( 'public-request' === $altctrl_metas[ $group->id ]->need_request ) {
 					$groups_template->groups[ $key ]->need_request = true;
+				} elseif ( 'public-invite' === $altctrl_metas[ $group->id ]->need_request ) {
+					$groups_template->groups[ $key ]->need_invite = true;
 				}
 			}
 		}
@@ -245,7 +251,9 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 	public function join_button( $button ) {
 		global $groups_template;
 
-		if ( empty( $groups_template->group->need_request ) || 'leave_group' == $button['id'] ) {
+		$bail = empty( $groups_template->group->need_request ) && empty( $groups_template->group->need_invite );
+
+		if ( $bail || 'leave_group' === $button['id'] ) {
 			return $button;
 		}
 
@@ -278,18 +286,25 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 				'link_class'        => 'group-button pending membership-requested',
 			);
 		} elseif ( ! is_super_admin() ) {
-			$button = array(
-				'id'                => 'request_membership',
-				'component'         => 'groups',
-				'must_be_logged_in' => true,
-				'block_self'        => false,
-				'wrapper_class'     => 'no-ajax ' . $groups_template->group->status,
-				'wrapper_id'        => 'groupbutton-' . $groups_template->group->id,
-				'link_href'         => wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . 'request-membership', 'groups_request_membership' ),
-				'link_text'         => __( 'Request Membership', 'altctrl-public-group' ),
-				'link_title'        => __( 'Request Membership', 'altctrl-public-group' ),
-				'link_class'        => 'group-button request-membership',
-			);
+			// When a request is needed: display a button to let the user request a membership
+			if ( ! empty( $groups_template->group->need_request ) ) {
+				$button = array(
+					'id'                => 'request_membership',
+					'component'         => 'groups',
+					'must_be_logged_in' => true,
+					'block_self'        => false,
+					'wrapper_class'     => 'no-ajax ' . $groups_template->group->status,
+					'wrapper_id'        => 'groupbutton-' . $groups_template->group->id,
+					'link_href'         => wp_nonce_url( bp_get_group_permalink( $groups_template->group ) . 'request-membership', 'groups_request_membership' ),
+					'link_text'         => __( 'Request Membership', 'altctrl-public-group' ),
+					'link_title'        => __( 'Request Membership', 'altctrl-public-group' ),
+					'link_class'        => 'group-button request-membership',
+				);
+
+			// When an invite is required: do not display the button at all.
+			} elseif ( ! empty( $groups_template->group->need_invite ) ) {
+				$button = false;
+			}
 		}
 
 		return $button;
@@ -327,7 +342,9 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		}
 
 		if ( ! isset( self::$needs_group_request[ $activities_template->activity->item_id ] ) ) {
-			self::$needs_group_request[ $activities_template->activity->item_id ] = 'public-request' !== apgc_group_get_visibility_level( $activities_template->activity->item_id );
+			$visibility = apgc_group_get_visibility_level( $activities_template->activity->item_id );
+
+			self::$needs_group_request[ $activities_template->activity->item_id ] = ! in_array( $visibility, array( 'public-request', 'public-invite' ), true );
 		}
 
 		$can_do = (bool) self::$needs_group_request[ $activities_template->activity->item_id ];
@@ -394,6 +411,8 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 
 	/**
 	 * Fetch all public groups that needs a membership request
+	 *
+	 * @todo cache this.
 	 */
 	private function get_request_control_meta( $groups = array() ) {
 		global $wpdb;
