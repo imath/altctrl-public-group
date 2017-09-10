@@ -5,3 +5,8 @@
 body.group-admin.control #buddypress .standard-form div.wp-editor textarea {
 	width:100%;
 }
+
+#buddypress #public-group-description {
+	list-style: none;
+	margin-left: 0;
+}
