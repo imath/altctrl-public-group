@@ -1,19 +1,16 @@
 <?php
 /**
- * Experiment to provide an alternative control to group admins on their public groups.
- *
- *
  * @author    imath
  * @license   GPL-2.0+
- * @link      http://imathi.eu
+ * @link      https://imathi.eu
  *
  * @buddypress-plugin
  * Plugin Name:       Alternative Public Group Control
- * Plugin URI:        http://imathi.eu/2014/06/15/altctrl-public-group/
- * Description:       Experimental BuddyPress plugin to provide an alternative control to group admins on their public groups.
+ * Plugin URI:        https://imathi.eu/2014/06/15/altctrl-public-group/
+ * Description:       Adds visibility levels to BuddyPress public groups.
  * Version:           2.0.0-alpha
  * Author:            imath
- * Author URI:        http://imathi.eu
+ * Author URI:        https://imathi.eu
  * Text Domain:       altctrl-public-group
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
@@ -86,12 +83,37 @@ class Alt_Public_Group_Ctrl_Loader {
 			return;
 		}
 
+		spl_autoload_register( array( $this, 'autoload' ) );
+
 		require $this->includes_dir . 'functions.php';
-		require $this->includes_dir . 'alt-public-group-ctrl.php';
 
 		if ( is_admin() ) {
 			require $this->includes_dir . 'settings.php';
 		}
+	}
+
+	/**
+	 * Class Autoload function
+	 *
+	 * @since  2.0.0
+	 *
+	 * @param  string $class The class name.
+	 */
+	public function autoload( $class ) {
+		$name = str_replace( '_', '-', strtolower( $class ) );
+
+		if ( 0 !== strpos( $name, 'apgc' ) ) {
+			return;
+		}
+
+		$path = $this->includes_dir . "classes/class-{$name}.php";
+
+		// Sanity check.
+		if ( ! file_exists( $path ) ) {
+			return;
+		}
+
+		require $path;
 	}
 }
 add_action( 'bp_include', array( 'Alt_Public_Group_Ctrl_Loader', 'start' ) );

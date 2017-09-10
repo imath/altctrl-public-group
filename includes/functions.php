@@ -22,6 +22,16 @@ function apgc_instance() {
 }
 
 /**
+ * Registers the Group Extension.
+ *
+ * @since  2.0.0
+ */
+function apgc_register_group_extension() {
+	bp_register_group_extension( 'APGC_Group_Extension' );
+}
+add_action( 'bp_init', 'apgc_register_group_extension' );
+
+/**
  * Get the "any user" allowed Group visibilities.
  *
  * @since 2.0.0
@@ -109,7 +119,7 @@ function apgc_can_current_user_do_private_groups() {
  * @return boolean True if it should. False otherwise.
  */
 function apgc_override_template_stack() {
-	$return = Alt_Public_Group_Ctrl::show_front_page();
+	$return = APGC_Group_Extension::show_front_page();
 
 	if ( ! $return && ! apgc_can_current_user_do_private_groups() ) {
 		if ( bp_is_group_create() ) {

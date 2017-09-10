@@ -1,15 +1,23 @@
 <?php
+/**
+ * Group Extension.
+ *
+ * @package AltPublicGroupCtrl\includes\classes
+ *
+ * @since 2.0.0
+ */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 if ( class_exists( 'BP_Group_Extension' ) ) :
 /**
  * The Alternative Public Group control class
  *
- * @package Alternative Public Group Control
- * @since 1.0.0
+ * @since  1.0.0
+ * @since  2.0.0 Class has been renamed.
  */
-class Alt_Public_Group_Ctrl extends BP_Group_Extension {
+class APGC_Group_Extension extends BP_Group_Extension {
 
 	public static $needs_group_request;
 
@@ -608,10 +616,5 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		echo apply_filters( 'altctrl_public_group_display_front_page', $output );
 	}
 }
-
-function altctrl_public_group() {
-	bp_register_group_extension( 'Alt_Public_Group_Ctrl' );
-}
-add_action( 'bp_init', 'altctrl_public_group' );
 
 endif;

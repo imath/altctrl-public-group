@@ -3,9 +3,9 @@
  * Group's front page for non members
  */
 
-if ( ! defined( 'ABSPATH' ) || ! class_exists( 'Alt_Public_Group_Ctrl' ) ) exit;
+if ( ! defined( 'ABSPATH' ) || ! class_exists( 'APGC_Group_Extension' ) ) exit;
 ?>
 
 <div class="group-custom-front">
-	<?php Alt_Public_Group_Ctrl::the_content() ;?>
+	<?php APGC_Group_Extension::the_content() ;?>
 </div>
