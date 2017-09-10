@@ -2,120 +2,233 @@
 # This file is distributed under the same license as the Alternative Public Group Control package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Alternative Public Group Control 1.0.0-beta\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/altctrl-public-group\n"
-"POT-Creation-Date: 2014-06-15 10:43:09+00:00\n"
+"Project-Id-Version: Alternative Public Group Control 2.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/altctrl-public-group\n"
+"POT-Creation-Date: 2017-09-10 18:29:20+00:00\n"
+"PO-Revision-Date: 2017-09-10 20:41+0100\n"
+"Last-Translator: imath <mathchristo@yahoo.fr>\n"
+"Language-Team: Français <contact@imathi.eu>\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-06-15 12:52+0100\n"
-"Last-Translator: imath <mathchristo@yahoo.fr>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Language: fr_FR\n"
 
-#: includes/alt-public-group-ctrl.php:23
+#: includes/classes/class-apgc-group-extension.php:32
 msgid "Control"
 msgstr "Contrôle"
 
-#: includes/alt-public-group-ctrl.php:75
+#: includes/classes/class-apgc-group-extension.php:84
 msgctxt "post type general name"
 msgid "Groups front"
 msgstr "Page de groupes"
 
-#: includes/alt-public-group-ctrl.php:76
+#: includes/classes/class-apgc-group-extension.php:85
 msgctxt "post type singular name"
 msgid "Group front"
 msgstr "Page de groupe"
 
-#: includes/alt-public-group-ctrl.php:136
-msgid "This area is restricted to group members"
-msgstr "Cette zone est réservée aux membres du groupe."
-
-#: includes/alt-public-group-ctrl.php:145
-#: includes/alt-public-group-ctrl.php:305
-#: includes/alt-public-group-ctrl.php:306
-msgid "Request Membership"
-msgstr "Adhérer"
-
-#: includes/alt-public-group-ctrl.php:177
+#: includes/classes/class-apgc-group-extension.php:127
 msgid "Requests"
 msgstr "Demande d&#39;adhésion"
 
-#: includes/alt-public-group-ctrl.php:191
-msgid ""
-"Your membership request was sent to the group administrator successfully. "
-"You will be notified when the group administrator responds to your request."
-msgstr ""
-"Votre demande d&#39;adhésion a été transmise à l&#39;administrateur du "
-"groupe. Vous serez notifié lorsque il y aura répondu."
+#: includes/classes/class-apgc-group-extension.php:158
+msgid "This area is restricted to group members"
+msgstr "Cette zone est réservée aux membres du groupe."
 
-#: includes/alt-public-group-ctrl.php:279
-#: includes/alt-public-group-ctrl.php:280
+#: includes/classes/class-apgc-group-extension.php:167
+#: includes/classes/class-apgc-group-extension.php:333
+#: includes/classes/class-apgc-group-extension.php:334
+msgid "Request Membership"
+msgstr "Adhérer"
+
+#: includes/classes/class-apgc-group-extension.php:205
+msgid ""
+"Your membership request was sent to the group administrator successfully. You will be notified "
+"when the group administrator responds to your request."
+msgstr ""
+"Votre demande d&#39;adhésion a été transmise à l&#39;administrateur du groupe. Vous serez "
+"notifié lorsque il y aura répondu."
+
+#: includes/classes/class-apgc-group-extension.php:305
+#: includes/classes/class-apgc-group-extension.php:306
 msgid "Accept Invitation"
 msgstr "Accepter l&#39;invitation"
 
-#: includes/alt-public-group-ctrl.php:292
-#: includes/alt-public-group-ctrl.php:293
+#: includes/classes/class-apgc-group-extension.php:318
+#: includes/classes/class-apgc-group-extension.php:319
 msgid "Request Sent"
 msgstr "Demande transmise"
 
-#: includes/alt-public-group-ctrl.php:453
+#: includes/classes/class-apgc-group-extension.php:523
 msgid "Joining group"
 msgstr "Devenir membre du groupe"
 
-#: includes/alt-public-group-ctrl.php:456
-msgid "Users need to submit a request to join group"
-msgstr ""
-"Les utilisateurs doivent faire une demande d&#39;adhésion pour rejoindre ce "
-"groupe"
-
-#: includes/alt-public-group-ctrl.php:463
+#: includes/classes/class-apgc-group-extension.php:531
 msgid "Group members only tabs"
 msgstr "Onglets réservés aux membres du groupe"
 
-#: includes/alt-public-group-ctrl.php:479
+#: includes/classes/class-apgc-group-extension.php:548
 msgid "Use the checkboxes to choose the tabs to hide to non members"
 msgstr "Utilisez les case à cocher pour cacher les onglets aux non membres."
 
-#: includes/alt-public-group-ctrl.php:485
+#: includes/classes/class-apgc-group-extension.php:554
 msgid "Group&#39;s home page"
 msgstr "Page d&#39;accueil du groupe"
 
-#: includes/alt-public-group-ctrl.php:488
+#: includes/classes/class-apgc-group-extension.php:557
 msgid "Use a custom front page for non group members"
-msgstr ""
-"Utiliser une page d&#39;accueil spécifique pour les non membres du groupe"
+msgstr "Utiliser une page d&#39;accueil spécifique pour les non membres du groupe"
 
-#: includes/alt-public-group-ctrl.php:512
+#: includes/classes/class-apgc-group-extension.php:581
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: includes/alt-public-group-ctrl.php:573
+#: includes/classes/class-apgc-group-extension.php:644
 msgid "Settings saved successfully"
 msgstr "Réglages sauvegardés."
+
+#: includes/functions.php:57
+msgid "Public"
+msgstr "Public"
+
+#: includes/functions.php:58
+msgid "Any site member can join this group."
+msgstr "Tous les membres du site peuvent adhérer à ce groupe."
+
+#: includes/functions.php:63
+msgid "Public with membership requests"
+msgstr "Public avec demande d'adhésion"
+
+#: includes/functions.php:64
+msgid "The site member needs to request a group membership."
+msgstr "Les membres du site doivent demander à adhérer au groupe."
+
+#: includes/functions.php:69
+msgid "Public for invited members only"
+msgstr "Public sur invitation seulement"
+
+#: includes/functions.php:70
+msgid "The site member needs to be invited to join the group."
+msgstr "Les membres du site doivent être invités à rejoindre ce groupe."
+
+#: includes/functions.php:75
+msgid "Private or Hidden"
+msgstr "Privé ou Masqué"
+
+#: includes/functions.php:275
+msgid "There was an error saving the group privacy option. Please try again."
+msgstr ""
+"Une erreur est survenue pendant l'enregistrement de la visibilité du groupe. Veuillez "
+"recommencer."
+
+#: includes/settings.php:21
+msgid "Available Group visibilities"
+msgstr "Visibilités de groupe disponibles"
+
+#: includes/settings.php:31
+msgid "Public Groups Manage Control Screen"
+msgstr "Page de contrôle du groupe"
+
+#: includes/settings.php:53
+msgid "Visibility levels"
+msgstr "Niveaux de visibilité"
+
+#: includes/settings.php:77
+msgid "Activate the checkboxes regular members can use."
+msgstr "Activez les cases à cocher pour les options que les membres peuvent utiliser."
+
+#: includes/settings.php:105
+msgid "Disable"
+msgstr "Désactiver"
+
+#. translators: accessibility text
+#: templates/groups/create.php:56
+msgid "Group Settings"
+msgstr "Réglages de groupe"
+
+#: templates/groups/create.php:70 templates/groups/single/admin/group-settings.php:22
+msgid "Privacy Options"
+msgstr "Options de visibilité"
+
+#: templates/groups/create.php:88 templates/groups/single/admin/group-settings.php:40
+msgid "Group Types"
+msgstr "Types de groupe"
+
+#: templates/groups/create.php:90 templates/groups/single/admin/group-settings.php:42
+msgid "Select the types this group should be a part of."
+msgstr "﻿Sélectionnez les types auxquels ce groupe peut appartenir."
+
+#. translators: Group type description shown when creating a group.
+#: templates/groups/create.php:98 templates/groups/single/admin/group-settings.php:50
+msgid "&ndash; %s"
+msgstr "&ndash; %s"
+
+#: templates/groups/create.php:118 templates/groups/single/admin/group-settings.php:70
+msgid "Group Invitations"
+msgstr "Invitations à rejoindre le groupe"
+
+#: templates/groups/create.php:120 templates/groups/single/admin/group-settings.php:72
+msgid "Which members of this group are allowed to invite others?"
+msgstr "Quels membres de ce groupe sont autorisés à inviter d'autres membres à les rejoindre ?"
+
+#: templates/groups/create.php:124 templates/groups/single/admin/group-settings.php:76
+msgid "All group members"
+msgstr "Tous les membres du groupe"
+
+#: templates/groups/create.php:126 templates/groups/single/admin/group-settings.php:78
+msgid "Group admins and mods only"
+msgstr "Uniquement les aministrateurs de groupe et les modérateurs"
+
+#: templates/groups/create.php:128 templates/groups/single/admin/group-settings.php:80
+msgid "Group admins only"
+msgstr "Uniquement les admins du groupe"
+
+#: templates/groups/create.php:142
+msgid "Group Forums"
+msgstr "Forums de groupe"
+
+#: templates/groups/create.php:144
+msgid ""
+"Attention Site Admin: the legacy Group forums are retired and not supported by the Alternative "
+"Public Group Control plugin."
+msgstr ""
+"﻿Attention Site Admin : les anciens forums de groupe sont à la retraite et ne sont pas pris en "
+"charge par l'extension de contrôle alternatif des groupes publics."
+
+#: templates/groups/create.php:170
+msgid "Back to Previous Step"
+msgstr "Revenir à l'étape précédente"
+
+#: templates/groups/create.php:171
+msgid "Next Step"
+msgstr "&Eacute;tape suivante"
+
+#: templates/groups/single/admin/group-settings.php:9
+msgid "Manage Group Settings"
+msgstr "Gestion du groupe"
+
+#: templates/groups/single/admin/group-settings.php:101
+msgid "Save Changes"
+msgstr "Enregistrer les modifications"
 
 #. Plugin Name of the plugin/theme
 msgid "Alternative Public Group Control"
 msgstr "Contrôle alternatif pour les groupes publics"
 
 #. Plugin URI of the plugin/theme
-msgid "http://imathi.eu/2014/06/15/altctrl-public-group/"
-msgstr "http://imathi.eu/2014/06/15/altctrl-public-group/"
+msgid "https://imathi.eu/2014/06/15/altctrl-public-group/"
+msgstr "https://imathi.eu/2014/06/15/altctrl-public-group/"
 
 #. Description of the plugin/theme
-msgid ""
-"Experimental BuddyPress plugin to provide an alternative control to group "
-"admins on their public groups."
-msgstr ""
-"Plugin BuddyPress expérimental visant à ajouter un contrôle plus fin des "
-"groupes publics."
+msgid "Adds visibility levels to BuddyPress public groups."
+msgstr "﻿Ajoute des niveaux de visibilité à des groupes publics BuddyPress."
 
 #. Author of the plugin/theme
 msgid "imath"
 msgstr "imath"
 
 #. Author URI of the plugin/theme
-msgid "http://imathi.eu"
-msgstr "http://imathi.eu"
+msgid "https://imathi.eu"
+msgstr "https://imathi.eu"
