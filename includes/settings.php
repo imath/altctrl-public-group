@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Registers Visibility restriction setting.
+ * Registers Plugin's settings into the BuddyPress Groups settings section.
  *
  * @since 2.0.0
  */
@@ -25,6 +25,16 @@ function apgc_settings() {
 	);
 
 	register_setting( 'buddypress', '_apgc_restrict_group_visibility', 'apgc_settings_sanitize_visibility_restrictions' );
+
+	add_settings_field(
+		'_apgc_disable_group_control',
+		__( 'Public Groups Manage Control Screen', 'altctrl-public-group' ),
+		'apgc_settings_group_control_screen',
+		'buddypress',
+		'bp_groups'
+	);
+
+	register_setting( 'buddypress', '_apgc_disable_group_control', 'intval' );
 }
 add_action( 'bp_register_admin_settings', 'apgc_settings', 11 );
 
@@ -81,4 +91,17 @@ function apgc_settings_sanitize_visibility_restrictions( $option = '' ) {
 	$option = array_merge( (array) $option, array( 'public-open', 'public-request' ) );
 
 	return array_map( 'sanitize_key', $option );
+}
+
+/**
+ * Should the Control screen be disabled?
+ *
+ * @since 2.0.0
+ */
+function apgc_settings_group_control_screen() {
+	$disabled = apgc_disable_group_control_screen();
+	?>
+	<input id="_apgc_disable_group_control" name="_apgc_disable_group_control" type="checkbox" value="1" <?php checked( $disabled ); ?> />
+	<label for="_apgc_disable_group_control"><?php esc_html_e( 'Disable', 'altctrl-public-group' ); ?></label>
+	<?php
 }

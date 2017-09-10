@@ -271,3 +271,14 @@ function apgc_group_create_group_visibility_setting() {
 }
 add_action( 'groups_create_group_step_save_group-settings', 'apgc_group_create_group_visibility_setting' );
 add_action( 'groups_group_settings_edited',                 'apgc_group_create_group_visibility_setting' );
+
+/**
+ * Is the Manage Control screen disabled for Public Groups?
+ *
+ * @since  2.0.0
+ *
+ * @return boolean True if the Control screen is disabled. False otherwise.
+ */
+function apgc_disable_group_control_screen() {
+	return (bool) bp_get_option( '_apgc_disable_group_control', false );
+}

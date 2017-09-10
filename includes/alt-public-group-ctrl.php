@@ -32,7 +32,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 					'enabled' => false,
 				),
 				'edit' => array(
-					'enabled' => $this->is_public_group(),
+					'enabled' => $this->is_public_group() && ! apgc_disable_group_control_screen(),
 				),
 			)
 		);
@@ -138,7 +138,7 @@ class Alt_Public_Group_Ctrl extends BP_Group_Extension {
 		}
 
 		// Redirect if trying to access the page
-		if ( ! empty( $hidden_tabs ) && in_array( bp_current_action(), $hidden_tabs ) ) {
+		if ( ! empty( $hidden_tabs ) && in_array( bp_current_action(), $hidden_tabs, true ) ) {
 			bp_core_add_message( __( 'This area is restricted to group members', 'altctrl-public-group' ), 'error' );
 			bp_core_redirect( bp_get_group_permalink( $this->group ) );
 		}
