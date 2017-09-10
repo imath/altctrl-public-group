@@ -23,6 +23,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * construct method to add some settings and hooks
+	 *
+	 * @since  1.0.0
 	 */
 	public function __construct() {
 		parent::init(  array(
@@ -50,6 +52,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Set some hooks (Actions & filters)
+	 *
+	 * @since  1.0.0
 	 */
 	private function setup_hooks() {
 		// Actions
@@ -68,6 +72,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Register an hidden post type to save custom group front pages
+	 *
+	 * @since  1.0.0
 	 */
 	private function register_post_type() {
 		if ( ! bp_is_root_blog() ) {
@@ -99,6 +105,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Check public group's control options and do the needed job
+	 *
+	 * @since  1.0.0
 	 */
 	public function control() {
 		$bp = buddypress();
@@ -173,6 +181,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Public > fake Private > Public..
+	 *
+	 * @since  1.0.0
 	 */
 	public function maybe_restore_status() {
 		if ( ! empty( $this->group->need_request ) ) {
@@ -182,6 +192,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Inform the user his request has been taken in account
+	 *
+	 * @since  1.0.0
 	 */
 	public function maybe_request_info() {
 		global $groups_template;
@@ -196,6 +208,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Enqueue minimal css
+	 *
+	 * @since  1.0.0
 	 */
 	public function enqueue_css() {
 		$bp = buddypress();
@@ -224,6 +238,13 @@ class APGC_Group_Extension extends BP_Group_Extension {
 	/**
 	 * Append a flag to indicate if the public group needs the user
 	 * to request a membership into the groups loop
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  boolean $has_groups Whether the Groups loop contains items or not.
+	 * @param  array   $groups     The list of found groups.
+	 * @param  array   $args       The Groups loop arguments.
+	 * @return boolean             Whether the Groups loop contains items or not.
 	 */
 	public function append_need_request( $has_groups, $groups, $args ) {
 		global $groups_template;
@@ -255,6 +276,11 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Eventually change the group action buttons
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  BP_Button $button The BuddyPress Group main action button.
+	 * @return BP_Button         The BuddyPress Group main action button.
 	 */
 	public function join_button( $button ) {
 		global $groups_template;
@@ -321,6 +347,11 @@ class APGC_Group_Extension extends BP_Group_Extension {
 	/**
 	 * If a public group needs the user to register to be a group member, commenting or
 	 * favoriting an activity is disabled
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  boolean $can_do Whether the current user can perform the action.
+	 * @return boolean         Whether the current user can perform the action.
 	 */
 	public function maybe_disable_can_do( $can_do = true ) {
 		global $activities_template;
@@ -364,6 +395,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Should we show the group's custom front page ?
+	 *
+	 * @since  1.0.0
 	 */
 	public static function show_front_page() {
 		$retval = false;
@@ -395,6 +428,11 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Does the group has a custom front page ?
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  integer $group_id The group ID.
+	 * @return integer           The Post ID of tge custom front page.
 	 */
 	public static function has_front_page( $group_id = 0 ) {
 		if ( empty( $group_id ) ) {
@@ -406,6 +444,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Is current group, a public group ?
+	 *
+	 * @since  1.0.0
 	 */
 	private function is_public_group() {
 		if ( ! bp_is_group() ) {
@@ -418,9 +458,14 @@ class APGC_Group_Extension extends BP_Group_Extension {
 	}
 
 	/**
-	 * Fetch all public groups that needs a membership request
+	 * Fetch all public groups that needs a membership/invites request
 	 *
 	 * @todo cache this.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  array  $groups A list of group IDs.
+	 * @return object         The Public groups that needs a membership/invites request.
 	 */
 	private function get_request_control_meta( $groups = array() ) {
 		global $wpdb;
@@ -455,7 +500,11 @@ class APGC_Group_Extension extends BP_Group_Extension {
 	public function widget_display() {}
 
 	/**
-	 * Displays edit screen
+	 * Displays edit screen.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param integer $group_id The group ID.
 	 */
 	public function edit_screen( $group_id = null ) {
 		$bp = buddypress();
@@ -538,7 +587,11 @@ class APGC_Group_Extension extends BP_Group_Extension {
 	}
 
 	/**
-	 * Save the settings of the group
+	 * Save the settings of the group.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param integer $group_id The group ID.
 	 */
 	public function edit_screen_save( $group_id = null ) {
 		if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
@@ -596,6 +649,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 	/**
 	 * Display the group's custom front page
+	 *
+	 * @since  1.0.0
 	 */
 	public static function the_content() {
 		$group_id = bp_get_current_group_id();
