@@ -98,7 +98,7 @@ function apgc_load_textdomain() {
 add_action( 'bp_init', 'apgc_load_textdomain', 5 );
 
 function apgc_can_current_user_do_private_groups() {
-	return in_array( 'private-hidden', apgc_get_visibility_levels(), true ) || bp_current_user_can( 'bp_moderate' );
+	return in_array( 'private-hidden', apgc_get_allowed_visibility_levels(), true ) || bp_current_user_can( 'bp_moderate' );
 }
 
 /**

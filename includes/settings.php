@@ -90,7 +90,7 @@ function apgc_settings_group_visibility_callback() {
 function apgc_settings_sanitize_visibility_restrictions( $option = '' ) {
 	$option = array_merge( (array) $option, array( 'public-open', 'public-request' ) );
 
-	return array_map( 'sanitize_key', $option );
+	return array_map( 'sanitize_key', array_unique( $option ) );
 }
 
 /**
