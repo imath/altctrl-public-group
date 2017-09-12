@@ -142,6 +142,21 @@ function apgc_override_template_stack() {
  */
 function apgc_template_stack( $template_stack = array() ) {
 	if ( apgc_override_template_stack() ) {
+		/**
+		 * Filter here returning false, to not override theme templates.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param  boolean $value True to override all templates.
+		 *                        False to only override BP Template Pack.
+		 */
+		if ( true === apply_filters( 'apgc_template_stack_override_theme', true ) ) {
+			return array_merge(
+				array( buddypress()->altctrl->templates_dir ),
+				$template_stack
+			);
+		}
+
 		$priority = 0;
 
 		foreach ( $template_stack as $itpl => $template ) {
