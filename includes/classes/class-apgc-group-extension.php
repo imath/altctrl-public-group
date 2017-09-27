@@ -20,6 +20,7 @@ if ( class_exists( 'BP_Group_Extension' ) ) :
 class APGC_Group_Extension extends BP_Group_Extension {
 
 	public static $needs_group_request;
+	public $group = null;
 
 	/**
 	 * construct method to add some settings and hooks
@@ -27,6 +28,16 @@ class APGC_Group_Extension extends BP_Group_Extension {
 	 * @since  1.0.0
 	 */
 	public function __construct() {
+		$is_public_group = $this->is_public_group();
+		$admin_screen    = array();
+
+		if ( $is_public_group ) {
+			$admin_screen = array(
+				'metabox_context'  => 'side',
+				'metabox_priority' => 'high',
+			);
+		}
+
 		parent::init(  array(
 			'slug'              => 'control',
 			'name'              => __( 'Control', 'altctrl-public-group' ),
@@ -34,14 +45,14 @@ class APGC_Group_Extension extends BP_Group_Extension {
 			'nav_item_position' => 91,
 			'enable_nav_item'   => false,
 			'screens'           => array(
-				'admin' => array(
-					'enabled' => false,
-				),
+				'admin' => array_merge( array(
+					'enabled' => $is_public_group,
+				), $admin_screen ),
 				'create' => array(
 					'enabled' => false,
 				),
 				'edit' => array(
-					'enabled' => $this->is_public_group() && ! apgc_disable_group_control_screen(),
+					'enabled' => $is_public_group && ( ! apgc_disable_group_control_screen() || bp_current_user_can( 'bp_moderate' ) ),
 				),
 			),
 		) );
@@ -62,6 +73,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 		add_action( 'groups_screen_group_admin_requests',        array( $this, 'maybe_restore_status' ) );
 		add_action( 'bp_after_group_request_membership_content', array( $this, 'maybe_request_info'   ) );
 		add_action( 'bp_enqueue_scripts',                        array( $this, 'enqueue_css'          ) );
+		add_action( 'bp_admin_enqueue_scripts',                  array( $this, 'inline_cssjs'         ) );
+		add_action( 'bp_group_admin_edit_after',                 array( $this, 'admin_screen_save'    ) );
 
 		// Filters
 		add_filter( 'bp_has_groups',            array( $this, 'append_need_request'   ), 10, 3 );
@@ -448,13 +461,26 @@ class APGC_Group_Extension extends BP_Group_Extension {
 	 * @since  1.0.0
 	 */
 	private function is_public_group() {
-		if ( ! bp_is_group() ) {
-			return false;
+		if ( bp_is_group() ) {
+			$this->group = groups_get_current_group();
+
+		} elseif ( is_admin() && ! wp_doing_ajax() ) {
+			$admin_url_query = wp_parse_args( wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY ), array(
+				'page'   => '',
+				'action' => '',
+				'gid'    => 0,
+			) );
+
+			if ( 'bp-groups' === $admin_url_query['page'] && 'edit' === $admin_url_query['action'] ) {
+				$this->group = groups_get_group( (int) $admin_url_query['gid'] );
+			}
 		}
 
-		$this->group = groups_get_current_group();
+		if ( ! empty( $this->group->status ) ) {
+			return 'public' === $this->group->status;
+		}
 
-		return ( 'public' == $this->group->status ) ? true : false;
+		return false;
 	}
 
 	/**
@@ -494,8 +520,6 @@ class APGC_Group_Extension extends BP_Group_Extension {
 	 */
 	public function create_screen( $group_id = null ) {}
 	public function create_screen_save( $group_id = null ) {}
-	public function admin_screen( $group_id = null ) {}
-	public function admin_screen_save( $group_id = null ) {}
 	public function display( $group_id = null ) {}
 	public function widget_display() {}
 
@@ -602,17 +626,17 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 		$group_id = ! empty( $group_id ) ? $group_id : bp_get_current_group_id();
 
+		// Update the visibility level.
+		if ( isset( $_POST['_altctrl_visibility_level'] ) ) {
+			apgc_group_update_visibility_level( $group_id, $_POST['_altctrl_visibility_level'] );
+		}
+
 		$altctrl = array();
 
 		if ( empty( $_POST['_altctrl'] ) ) {
 			return;
 		} else {
 			$altctrl = $_POST['_altctrl'];
-		}
-
-		// Update the visibility level.
-		if ( isset( $_POST['_altctrl_visibility_level'] ) ) {
-			apgc_group_update_visibility_level( $group_id, $_POST['_altctrl_visibility_level'] );
 		}
 
 		if ( ! empty( $altctrl['tabs'] ) ) {
@@ -643,6 +667,74 @@ class APGC_Group_Extension extends BP_Group_Extension {
 
 		bp_core_add_message( __( 'Settings saved successfully', 'altctrl-public-group' ) );
 		bp_core_redirect( bp_get_group_permalink( buddypress()->groups->current_group ) . 'admin/' . $this->slug );
+	}
+
+	/**
+	 * Add admin inline style and script for the Public group.
+	 *
+	 * @since 2.0.0
+	 */
+	public function inline_cssjs() {
+		if ( is_null( $this->group ) ) {
+			return;
+		}
+
+		wp_add_inline_style( 'bp_groups_admin_css', '
+			#apgc-admin ul {
+				list-style: none;
+			}
+		' );
+
+		wp_add_inline_script( 'bp_groups_admin_js', '
+			( function($) {
+				$( \'input[name="group-status"]\' ).on( \'click\', function( e ) {
+					if ( \'public\' ===  $( e.currentTarget ).val() ) {
+						$( \'#apgc-feedback\' ).addClass( \'hide-if-js hide-if-no-js\' );
+						$( \'#apgc-admin\' ).removeClass( \'hide-if-js hide-if-no-js\' );
+					} else {
+						$( \'#apgc-feedback\' ).removeClass( \'hide-if-js hide-if-no-js\' );
+						$( \'#apgc-admin\' ).addClass( \'hide-if-js hide-if-no-js\' );
+					}
+				} );
+			} )( jQuery );
+		' );
+	}
+
+	/**
+	 * Displays the Public group's control metabox
+	 *
+	 * @since  2.0.0
+	 *
+	 * @param  integer $group_id The Group ID
+	 */
+	public function admin_screen( $group_id = null ) {
+		?>
+		<div id="apgc-feedback" class="hide-if-js hide-if-no-js">
+			<p class="description"><?php esc_html_e( 'The control features are only available for public groups', 'altctrl-public-group' ); ?></p>
+		</div>
+		<div id="apgc-admin">
+			<h4><?php esc_html_e( 'Joining group', 'altctrl-public-group' );?></h4>
+
+			<ul><?php apgc_group_visibility_options( $group_id ) ;?></ul>
+
+			<?php wp_nonce_field( 'groups_edit_save_' . $this->slug, 'altctrl' ); ?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Saves the Public group's control options.
+	 *
+	 * @since  2.0.0
+	 *
+	 * @param  integer $group_id The Group ID
+	 */
+	public function admin_screen_save( $group_id = null ) {
+		if ( ! isset( $_POST['_altctrl_visibility_level'] ) ) {
+			return;
+		}
+
+		$this->edit_screen_save( $group_id );
 	}
 
 	/** Template tag **************************************************************/

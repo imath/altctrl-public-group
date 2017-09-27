@@ -184,9 +184,13 @@ add_filter( 'bp_get_template_stack', 'apgc_template_stack', 10, 1 );
  * Outputs the public visibiity options.
  *
  * @since 2.0.0
+ *
+ * @param  integer $group_id The Group ID.
  */
-function apgc_group_visibility_options() {
-	$group_id = bp_get_current_group_id();
+function apgc_group_visibility_options( $group_id = 0 ) {
+	if ( ! $group_id ) {
+		$group_id = bp_get_current_group_id();
+	}
 
 	if ( ! $group_id ) {
 		$group_id = bp_get_new_group_id();

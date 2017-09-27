@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Alternative Public Group Control 2.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/altctrl-public-group\n"
-"POT-Creation-Date: 2017-09-10 18:29:20+00:00\n"
-"PO-Revision-Date: 2017-09-10 20:41+0100\n"
+"POT-Creation-Date: 2017-09-27 03:46:02+00:00\n"
+"PO-Revision-Date: 2017-09-27 05:47+0100\n"
 "Last-Translator: imath <mathchristo@yahoo.fr>\n"
 "Language-Team: Français <contact@imathi.eu>\n"
 "Language: fr_FR\n"
@@ -15,35 +15,35 @@ msgstr ""
 "X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: includes/classes/class-apgc-group-extension.php:32
+#: includes/classes/class-apgc-group-extension.php:43
 msgid "Control"
 msgstr "Contrôle"
 
-#: includes/classes/class-apgc-group-extension.php:84
+#: includes/classes/class-apgc-group-extension.php:97
 msgctxt "post type general name"
 msgid "Groups front"
 msgstr "Page de groupes"
 
-#: includes/classes/class-apgc-group-extension.php:85
+#: includes/classes/class-apgc-group-extension.php:98
 msgctxt "post type singular name"
 msgid "Group front"
 msgstr "Page de groupe"
 
-#: includes/classes/class-apgc-group-extension.php:127
+#: includes/classes/class-apgc-group-extension.php:140
 msgid "Requests"
 msgstr "Demande d&#39;adhésion"
 
-#: includes/classes/class-apgc-group-extension.php:158
+#: includes/classes/class-apgc-group-extension.php:171
 msgid "This area is restricted to group members"
 msgstr "Cette zone est réservée aux membres du groupe."
 
-#: includes/classes/class-apgc-group-extension.php:167
-#: includes/classes/class-apgc-group-extension.php:333
-#: includes/classes/class-apgc-group-extension.php:334
+#: includes/classes/class-apgc-group-extension.php:180
+#: includes/classes/class-apgc-group-extension.php:346
+#: includes/classes/class-apgc-group-extension.php:347
 msgid "Request Membership"
 msgstr "Adhérer"
 
-#: includes/classes/class-apgc-group-extension.php:205
+#: includes/classes/class-apgc-group-extension.php:218
 msgid ""
 "Your membership request was sent to the group administrator successfully. You will be notified "
 "when the group administrator responds to your request."
@@ -51,43 +51,48 @@ msgstr ""
 "Votre demande d&#39;adhésion a été transmise à l&#39;administrateur du groupe. Vous serez "
 "notifié lorsque il y aura répondu."
 
-#: includes/classes/class-apgc-group-extension.php:305
-#: includes/classes/class-apgc-group-extension.php:306
+#: includes/classes/class-apgc-group-extension.php:318
+#: includes/classes/class-apgc-group-extension.php:319
 msgid "Accept Invitation"
 msgstr "Accepter l&#39;invitation"
 
-#: includes/classes/class-apgc-group-extension.php:318
-#: includes/classes/class-apgc-group-extension.php:319
+#: includes/classes/class-apgc-group-extension.php:331
+#: includes/classes/class-apgc-group-extension.php:332
 msgid "Request Sent"
 msgstr "Demande transmise"
 
-#: includes/classes/class-apgc-group-extension.php:523
+#: includes/classes/class-apgc-group-extension.php:547
+#: includes/classes/class-apgc-group-extension.php:716
 msgid "Joining group"
 msgstr "Devenir membre du groupe"
 
-#: includes/classes/class-apgc-group-extension.php:531
+#: includes/classes/class-apgc-group-extension.php:555
 msgid "Group members only tabs"
 msgstr "Onglets réservés aux membres du groupe"
 
-#: includes/classes/class-apgc-group-extension.php:548
+#: includes/classes/class-apgc-group-extension.php:572
 msgid "Use the checkboxes to choose the tabs to hide to non members"
 msgstr "Utilisez les case à cocher pour cacher les onglets aux non membres."
 
-#: includes/classes/class-apgc-group-extension.php:554
+#: includes/classes/class-apgc-group-extension.php:578
 msgid "Group&#39;s home page"
 msgstr "Page d&#39;accueil du groupe"
 
-#: includes/classes/class-apgc-group-extension.php:557
+#: includes/classes/class-apgc-group-extension.php:581
 msgid "Use a custom front page for non group members"
 msgstr "Utiliser une page d&#39;accueil spécifique pour les non membres du groupe"
 
-#: includes/classes/class-apgc-group-extension.php:581
+#: includes/classes/class-apgc-group-extension.php:605
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: includes/classes/class-apgc-group-extension.php:644
+#: includes/classes/class-apgc-group-extension.php:668
 msgid "Settings saved successfully"
 msgstr "Réglages sauvegardés."
+
+#: includes/classes/class-apgc-group-extension.php:713
+msgid "The control features are only available for public groups"
+msgstr "Les fonctionnalités de contrôle sont uniquement disponibles pour les groupes publics."
 
 #: includes/functions.php:57
 msgid "Public"
@@ -117,7 +122,7 @@ msgstr "Les membres du site doivent être invités à rejoindre ce groupe."
 msgid "Private or Hidden"
 msgstr "Privé ou Masqué"
 
-#: includes/functions.php:275
+#: includes/functions.php:294
 msgid "There was an error saving the group privacy option. Please try again."
 msgstr ""
 "Une erreur est survenue pendant l'enregistrement de la visibilité du groupe. Veuillez "
