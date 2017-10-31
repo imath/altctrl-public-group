@@ -546,7 +546,7 @@ class APGC_Group_Extension extends BP_Group_Extension {
 		<?php if ( apgc_can_current_user_do_private_groups() ) : ?>
 			<h4><?php esc_html_e( 'Joining group', 'altctrl-public-group' );?></h4>
 
-			<?php apgc_group_visibility_options() ;?>
+			<ul id="public-group-description"><?php apgc_group_visibility_options() ;?></ul>
 
 		<?php endif ;?>
 
