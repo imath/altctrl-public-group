@@ -47,6 +47,7 @@ function apgc_get_allowed_visibility_levels( $default = array( 'public-open', 'p
  * Get the supported Group visibilities.
  *
  * @since 2.0.0
+ * @since 2.1.0 Adds the logged-in only visibility
  *
  * @return array The supported Group visibilities.
  */
@@ -62,6 +63,12 @@ function apgc_get_visibility_levels() {
 			'id'          => 'public-request',
 			'title'       => __( 'Public with membership requests', 'altctrl-public-group' ),
 			'description' => __( 'The site member needs to request a group membership.', 'altctrl-public-group' ),
+			'public'      => true,
+		),
+		'public-loggedin' => array(
+			'id'          => 'public-loggedin',
+			'title'       => __( 'Public for logged in members only', 'altctrl-public-group' ),
+			'description' => __( 'The site member needs to be logged in to view the group\'s content.', 'altctrl-public-group' ),
 			'public'      => true,
 		),
 		'public-invite'    =>  array(

@@ -8,7 +8,7 @@
  * Plugin Name:       Alternative Public Group Control
  * Plugin URI:        https://imathi.eu/2014/06/15/altctrl-public-group/
  * Description:       Adds visibility levels to BuddyPress public groups.
- * Version:           2.0.0
+ * Version:           2.1.0
  * Author:            imath
  * Author URI:        https://imathi.eu
  * Text Domain:       altctrl-public-group
@@ -51,7 +51,7 @@ class Alt_Public_Group_Ctrl_Loader {
 	 * Set the includes and templates dirs
 	 */
 	private function setup_globals() {
-		$this->version       = '2.0.0';
+		$this->version       = '2.1.0';
 		$this->domain        = 'altctrl-public-group';
 		$this->includes_dir  = trailingslashit( plugin_dir_path( __FILE__ ) . 'includes'  );
 		$this->templates_dir = trailingslashit( plugin_dir_path( __FILE__ ) . 'templates' );

@@ -132,8 +132,9 @@ class APGC_Group_Extension extends BP_Group_Extension {
 		$hidden_tabs  = (array) groups_get_groupmeta( $this->group->id, '_altctrl_tabs', true );
 		$need_request = apgc_group_get_visibility_level( $this->group->id );
 
-		$this->group->need_request = 'public-request' === $need_request;
-		$this->group->need_invite  = 'public-invite'  === $need_request;
+		$this->group->need_request = 'public-request'  === $need_request;
+		$this->group->need_invite  = 'public-invite'   === $need_request;
+		$this->group->need_login   = 'public-loggedin' === $need_request;
 
 		if ( ! empty( $this->group->need_request ) && bp_is_group_admin_page() ) {
 			bp_core_new_subnav_item( array(
@@ -153,7 +154,7 @@ class APGC_Group_Extension extends BP_Group_Extension {
 		}
 
 		// Admin or members always have access
-		if ( bp_is_item_admin() || groups_is_user_member( bp_loggedin_user_id(), $this->group->id ) ) {
+		if ( bp_is_item_admin() || groups_is_user_member( bp_loggedin_user_id(), $this->group->id ) || ( $this->group->need_login && is_user_logged_in() ) ) {
 			return;
 		}
 
@@ -189,6 +190,15 @@ class APGC_Group_Extension extends BP_Group_Extension {
 			if ( bp_is_group_membership_request() ) {
 				$bp->groups->current_group->status = 'private';
 			}
+		} else if ( $this->group->need_login && ! is_user_logged_in() ) {
+			$bp->groups->current_group->is_visible = false;
+
+			if ( 'home' !== bp_current_action() ) {
+				bp_core_redirect( bp_get_group_permalink( $this->group ) );
+			}
+
+			// Temporarly filters the Group's status message.
+			add_filter( 'bp_group_status_message', array( $this, 'need_login_message' ), 10, 0 );
 		}
 	}
 
@@ -280,6 +290,8 @@ class APGC_Group_Extension extends BP_Group_Extension {
 					$groups_template->groups[ $key ]->need_request = true;
 				} elseif ( 'public-invite' === $altctrl_metas[ $group->id ]->need_request ) {
 					$groups_template->groups[ $key ]->need_invite = true;
+				} elseif ( 'public-loggedin' === $altctrl_metas[ $group->id ]->need_request ) {
+					$groups_template->groups[ $key ]->need_login = true;
 				}
 			}
 		}
@@ -761,6 +773,18 @@ class APGC_Group_Extension extends BP_Group_Extension {
 		$output = apply_filters( 'the_content', $page->post_content );
 
 		echo apply_filters( 'altctrl_public_group_display_front_page', $output );
+	}
+
+	public function need_login_message() {
+		// Stop filtering immediately.
+		remove_filter( 'bp_group_status_message', array( $this, 'need_login_message' ), 10, 0 );
+
+		return sprintf(
+			__( 'You must be logged-in to view this group\'s content. Please %s.', 'altctrl-public-group' ),
+			sprintf( '<a href="%1$s">%2$s</a>', esc_url( wp_login_url(
+				bp_get_group_permalink( buddypress()->groups->current_group )
+			) ), __( 'log in', 'altctrl-public-group' ) )
+		);
 	}
 }
 
