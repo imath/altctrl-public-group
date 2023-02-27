@@ -8,7 +8,9 @@
  */
 
 // Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Registers Plugin's settings into the BuddyPress Groups settings section.
